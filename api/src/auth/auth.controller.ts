@@ -37,6 +37,6 @@ export class AuthController {
     const token = await this.authService.getJwtPayload(user);
     res.cookie('Authorization', `Bearer ${token}`, { httpOnly: true });
 
-    return token;
+    return user;
   }
 }

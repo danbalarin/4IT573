@@ -5,7 +5,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { IsEmailUnique } from 'src/user/validators/is-email-unique.validator';
+import { IsEmailUnique } from '../../user/validators/is-email-unique.validator';
 
 export class SignUpDto {
   @IsEmail()

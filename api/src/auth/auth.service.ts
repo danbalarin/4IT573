@@ -5,12 +5,12 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 import { LoginDto } from './dto/login.dto';
 import { SignUpDto } from './dto/signup.dto';
-import { UserService } from 'src/user/user.service';
-import { User } from '@prisma/client';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
