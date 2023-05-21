@@ -1,20 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
-import { exceptionFactory } from './utils/exception-factory';
-import { useContainer } from 'class-validator';
+import { mainConfig } from '../main.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      transform: true,
-      exceptionFactory,
-    }),
-  );
-  await app.listen(3000);
+  mainConfig(app);
+
+  await app.listen(3001);
 }
 bootstrap();

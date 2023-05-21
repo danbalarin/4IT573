@@ -23,7 +23,7 @@ export function IsEmailUnique(validationOptions?: ValidationOptions) {
     registerDecorator({
       target: object.constructor,
       propertyName: propertyName,
-      options: validationOptions,
+      options: { message: 'email already exists', ...validationOptions },
       constraints: [],
       validator: IsEmailUniqueConstraint,
     });

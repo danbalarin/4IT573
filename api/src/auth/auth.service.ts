@@ -23,7 +23,7 @@ export class AuthService {
     const user = await this.userService.findUserByEmail(loginDto.email);
 
     if (!user) {
-      throw new BadRequestException({ email: 'User not found' });
+      throw new UnauthorizedException({ email: 'User not found' });
     }
 
     const passwordMatch = await this.comparePassword(
@@ -38,10 +38,17 @@ export class AuthService {
     return this.getJwtPayload(user);
   }
 
-  async signup(signupDto: SignUpDto): Promise<Omit<User, 'password'>> {
+  async signup(
+    signupDto: SignUpDto,
+  ): Promise<Omit<User, 'password' | 'createdAt' | 'updatedAt'>> {
     const hashedPassword = await this.hashPassword(signupDto.password);
 
-    const { password: _password, ...user } = await this.userService.createUser({
+    const {
+      password: _password,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+      ...user
+    } = await this.userService.createUser({
       ...signupDto,
       password: hashedPassword,
     });

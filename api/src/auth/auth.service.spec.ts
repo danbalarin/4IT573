@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { UserService } from '../user/user.service';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { PersistanceModule } from '../persistance/persistance.module';
-import { BadRequestException, UnauthorizedException } from '@nestjs/common';
+import { UnauthorizedException } from '@nestjs/common';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -59,7 +59,7 @@ describe('AuthService', () => {
       password: 'password',
     });
 
-    await expect(token).rejects.toThrowError(BadRequestException);
+    await expect(token).rejects.toThrowError(UnauthorizedException);
   });
 
   it('should throw an error if the passwords doesnt match', async () => {
