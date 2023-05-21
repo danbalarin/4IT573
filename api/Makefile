@@ -1,5 +1,6 @@
 DATABASE_URL := "postgresql://postgres:postgres@localhost:5433/postgres"
 BIN := node_modules/.bin
+.DEFAULT_GOAL := start-prod
 
 infra:
 	docker compose up -d --force-recreate
@@ -30,3 +31,24 @@ test-e2e: reset-test-db
 
 dev:
 	$(BIN)/nest start --watch
+
+build:
+	$(BIN)/nest build
+
+format:
+	$(BIN)/prettier --write \"src/**/*.ts\" \"test/**/*.ts\"
+
+start:
+	$(BIN)/nest start
+
+start-debug:
+	$(BIN)/nest start --debug --watch
+
+start-prod:
+	$(BIN)/node dist/main
+
+lint:
+	$(BIN)/eslint \"{src,apps,libs,test}/**/*.ts\" --fix
+
+prisma-generate:
+	$(BIN)/prisma generate
