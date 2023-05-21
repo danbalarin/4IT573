@@ -18,9 +18,10 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - db_data_test:/var/lib/postgresql/data
     ports:
       - "5433:5432"
 
 volumes:
   db_data:
+  db_data_test:
