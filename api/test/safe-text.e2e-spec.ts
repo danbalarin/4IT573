@@ -6,6 +6,7 @@ import { mainConfig } from '../main.config';
 
 describe('/safe-text SafeTextModule', () => {
   let app: INestApplication;
+  let authCookie: string;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -17,24 +18,31 @@ describe('/safe-text SafeTextModule', () => {
     mainConfig(app);
 
     await app.init();
+
+    if (!authCookie) {
+      const res = await request(app.getHttpServer()).post('/auth/signup').send({
+        email: 'safe-text@example.com',
+        password: 'Test123',
+      });
+
+      authCookie = decodeURI(res.header['set-cookie'][0].split(';')[0]);
+    }
   });
 
   it('/ (POST)', async () => {
     const res = await request(app.getHttpServer())
       .post('/safe-text')
+      .set('Cookie', [authCookie])
       .send({
         text: 'password',
       })
       .expect(201);
 
     expect(res.body).toHaveProperty('id');
-    expect(res.body).toHaveProperty('email');
-    expect(res.body).not.toHaveProperty('password');
-    expect(res.body).not.toHaveProperty('createdAt');
-    expect(res.body).not.toHaveProperty('updatedAt');
-
-    const cookie = res.header['set-cookie'][0].split(';')[0];
-    expect(cookie).toMatch(/^Authorization=Bearer/);
+    expect(res.body).toHaveProperty('domain');
+    expect(res.body).toHaveProperty('text');
+    expect(res.body).toHaveProperty('createdAt');
+    expect(res.body).toHaveProperty('updatedAt');
   });
 
   //   it('/signup (POST) password validation', async () => {
