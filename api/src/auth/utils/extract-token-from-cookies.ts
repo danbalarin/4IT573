@@ -1,13 +1,5 @@
 import { Request } from 'express';
-
-const parseCookie = (str: string) =>
-  str
-    .split(';')
-    .map((v) => v.split('='))
-    .reduce((acc, v) => {
-      acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
-      return acc;
-    }, {});
+import { parseCookie } from './parse-cookie';
 
 export function extractTokenFromCookies(request: Request): string | undefined {
   const cookies = parseCookie(request.headers.cookie ?? '');
