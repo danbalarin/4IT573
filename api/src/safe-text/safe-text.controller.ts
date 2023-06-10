@@ -52,9 +52,6 @@ export class SafeTextController {
 
     throwIfNotOwner(user.sub, text);
 
-    console.log('text', text);
-    console.log('user.sub', user.sub);
-
     try {
       return this.safeTextService.update(+id, updateSafeTextDto);
     } catch {
