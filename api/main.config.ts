@@ -4,7 +4,10 @@ import { AppModule } from './src/app.module';
 import { exceptionFactory } from './src/utils/exception-factory';
 
 export function mainConfig(app: INestApplication) {
-  app.enableCors();
+  app.enableCors({
+    credentials: true,
+    origin: true,
+  });
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,

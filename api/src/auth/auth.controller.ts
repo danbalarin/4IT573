@@ -22,7 +22,7 @@ export class AuthController {
     @Response({ passthrough: true }) res: Res,
   ) {
     const token = await this.authService.login(loginDto);
-    res.cookie('Authorization', `Bearer ${token}`, { httpOnly: true });
+    res.cookie('Authorization', `Bearer ${token}`);
 
     return token;
   }
@@ -35,7 +35,7 @@ export class AuthController {
   ) {
     const user = await this.authService.signup(signupDto);
     const token = await this.authService.getJwtPayload(user);
-    res.cookie('Authorization', `Bearer ${token}`, { httpOnly: true });
+    res.cookie('Authorization', `Bearer ${token}`);
 
     return user;
   }

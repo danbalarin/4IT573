@@ -1,4 +1,5 @@
 DATABASE_URL := "postgresql://postgres:postgres@localhost:5433/postgres"
+PROD_DATABASE_URL := "postgresql://postgres:postgres@localhost:5433/postgres"
 BIN := node_modules/.bin
 .DEFAULT_GOAL := start-prod
 
@@ -13,6 +14,9 @@ infra-restart: infra-stop infra
 reset-test-db:
 	DATABASE_URL=$(DATABASE_URL) $(BIN)/prisma migrate reset --force
 	DATABASE_URL=$(DATABASE_URL) $(BIN)/prisma migrate dev
+
+migrate-prod-db:
+	DATABASE_URL=$(PROD_DATABASE_URL) $(BIN)/prisma migrate deploy
 
 test:
 	$(BIN)/jest
